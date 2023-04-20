@@ -634,7 +634,23 @@ Connection to bandit.labs.overthewire.org closed.
 
 So I try using `dash`  instead of `bash`
 
-![bandit18 login](https://user-images.githubusercontent.com/98354414/222947086-53ddca51-8329-4105-a348-df6e9abb47d3.png)
+```shell
+┌──(dyl4n㉿kali)-[~]
+└─$ ssh -t bandit18@bandit.labs.overthewire.org -p 2220 /bin/dash
+                         _                     _ _ _
+                        | |__   __ _ _ __   __| (_) |_
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+
+
+                      This is an OverTheWire game server.
+            More information on http://www.overthewire.org/wargames
+
+bandit18@bandit.labs.overthewire.org's password:
+$ ls
+readme
+```
 
 Yep, it works. Let's get the password in `readme` file and move on!
 
@@ -654,11 +670,16 @@ To gain access to the next level, you should use the setuid binary in the homedi
 
 
 When logged in, we can see the highlighted file named "bandit20-do". It seems like a binary file.
-![bandit20-do](https://user-images.githubusercontent.com/98354414/222948044-d5f04668-469a-4f6b-b5e2-15a6ef9018d5.png)
+![bandit20-do](/posts/bandit-writeup/14.png)
 
 
 I proceed to execute it and then it displayed something like that
-![run bandit20-do](https://user-images.githubusercontent.com/98354414/222948334-030a3357-8f7a-4967-8881-407333ed741f.png)
+
+```shell
+bandit19@bandit:~$ ./bandit20-do
+Run a command as another user.
+  Example: ./bandit20-do id
+```
 
 Maybe it's executable file and help me to be able to execute command under **bandit20**'s permission.
 No-doubt I run the file along with `cat /etc/bandit_pass/bandit20` to get the flag!
@@ -678,16 +699,24 @@ NOTE: Try connecting to your own network daemon to see if it works as you think
 
 ### Solution
 
+My idea is to create a listener and simultaneously send the previous level password (I use `nc` with pipe line). Then using `suconnect` file to connect that port and it'll return my expect output.
 
-![suconnect file](https://user-images.githubusercontent.com/98354414/223317834-e02d2bf5-6e78-4bed-a545-8118c11826e1.png)
+```shell
+bandit20@bandit:~$ echo -n "VxCazJaVykI6W36BkBU0mJTCM8rR95XT" | nc -lp 8888 &
+[1] 2301973
+```
+The `-n` flag is to prevent newline characters in the input.
 
-First we need to create a listener at localhost to listen for incoming connections while sending the current level's password. `ps aux` to check port if it's active
-
-![bandit20 image-1](https://user-images.githubusercontent.com/98354414/223973653-12266e1e-201a-49d9-ad50-cb4a18c389fc.png)
+`-lp`: listener port
 
 Then, we try using file `./suconnect` to connect to that port and get the password!
 
-![bandit20 password](https://user-images.githubusercontent.com/98354414/223975605-e0bd5883-2c77-40e9-8aaa-c92b2d98ffc7.png)
+```shell
+bandit20@bandit:~$ ./suconnect 8888
+Read: VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+Password matches, sending next password
+NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
+```
 
 Flag: *NvEJF7oVjkddltPSrdKEFOllh9V1IBcq*
 
@@ -697,12 +726,8 @@ A program is running automatically at regular intervals from cron, the time-base
 ### Solution
 
 
-Here's the content of `/etc/cron.d`, Look at `cronjob_bandit22`, I guess we'll have password information in it.
 
-![bandit21 cronjob](https://user-images.githubusercontent.com/98354414/223979353-7b9a7fb0-508c-48d1-b12a-5e91190fe064.png)
-
-Try `cat` it
-
+Try seeing the content of `cronjob_bandit22` at `/etc/cron.d`
 ```
 bandit21@bandit:/etc/cron.d$ cat cronjob_bandit22
 @reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
@@ -735,10 +760,6 @@ NOTE: Looking at shell scripts written by other people is a very useful skill. T
 
 
 ### Solution
-
-
-![bandit22 image1](https://user-images.githubusercontent.com/98354414/223985567-56c995cf-7868-4c5b-9a92-49d03b021976.png)
-
 
 
 ```
