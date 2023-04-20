@@ -6,6 +6,8 @@ categories: [Operating System, Linux]
 tags: [linux]
 render_with_liquid: false
 comments: true
+image:
+  path: /thumbnails/Linux-File-Types.png
 ---
 
 In Linux/UNIX, Files are mainly categorized into 3 parts:

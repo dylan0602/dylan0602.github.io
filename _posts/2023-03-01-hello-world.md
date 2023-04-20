@@ -7,8 +7,7 @@ tags: [personal blog]
 render_with_liquid: false
 comments: true
 image:
-  path: /posts/hello-world/index.png
-  alt: dyl4n
+  path: /thumbnails/hello-world.png
 ---
 
 Hi guys! I'm Dylan, my full name is Nguyen Quoc Dat. I live in Hanoi, Vietnam. <br />

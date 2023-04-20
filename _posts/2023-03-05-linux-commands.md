@@ -6,6 +6,8 @@ categories: [Operating System, Linux]
 tags: [linux commands]
 render_with_liquid: false
 comments: true
+image:
+  path: /thumbnails/Linux-Commands.png
 ---
 
 Linux is a powerful operating system that offers a wide range of features and tools to help users manage their systems effectively. One of the most important aspects of Linux is the command-line interface (CLI), which allows users to interact with the system using text-based commands.
