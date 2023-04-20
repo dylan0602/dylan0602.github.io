@@ -7,7 +7,7 @@ tags: [personal blog]
 render_with_liquid: false
 comments: true
 image:
-  path: /dyl4n.png
+  path: /posts/hello-world/index.png
   alt: dyl4n
 ---
 
