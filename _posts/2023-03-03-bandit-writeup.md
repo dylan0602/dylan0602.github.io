@@ -24,7 +24,7 @@ Back to wargame, I will use `https://bandit.labs.overthewire.org/` is the host, 
 ssh bandit0@bandit.labs.overthewire.org -p 2220
 ```
 
-![bandit0 login](https://user-images.githubusercontent.com/98354414/232381857-577dc482-744a-4e66-b0c5-7fd1ba319dd4.png)
+![bandit0 login](/posts/bandit-writeup/1.png)
 
 All I need to do is read it!
 
@@ -45,7 +45,7 @@ The password for the next level is stored in a file called - located in the home
 ssh bandit1@bandit.labs.overthewire.org -p 2220
 ```
 
-![dashed filename](https://user-images.githubusercontent.com/98354414/232381500-0f3f0f2c-cdc4-42ae-b4ba-66d5d2a6e0ff.png)
+![dashed filename](/posts/bandit-writeup/2.png)
 
 There are several ways to read dashed filename. Simply I just use `cat ./-`.
 Additionally, you can use `cat < -`
@@ -64,7 +64,7 @@ The password for the next level is stored in a file called spaces in this filena
 
 ### Solution
 
-![image](https://user-images.githubusercontent.com/98354414/232382189-857e59f2-0301-4fa7-ac42-5b4a853543e3.png)
+![image](/posts/bandit-writeup/3.png)
 
 There's the password file, just read it and move on. But... Let's take a closer look at file name. If you use `cat spaces in this filename`, cat thinks we want to read 4 files.  So, in this case, I can put filename to `''` or put `\` before spaces character
 
@@ -94,7 +94,7 @@ The password for the next level is stored in a hidden file in the inhere directo
 
 There's a `inhere` directory in bandit3's home dir.
 
-![hidden file](https://user-images.githubusercontent.com/98354414/232382806-dac976ac-b59a-47ad-b006-8c69d62e9416.png)
+![hidden file](/posts/bandit-writeup/4.png)
 
 Use `ls -a` to list all content in a directory, consist of hidden files. 
 
@@ -119,7 +119,7 @@ Tip: if your terminal is messed up, try the “reset” command.
 
 There's `inhere` directory, let's see the content of this.
 
-![content of inhere/](https://user-images.githubusercontent.com/98354414/232383447-c8eef868-009c-4d74-90f2-218203da2828.png)
+![content of inhere/](/posts/bandit-writeup/5.png)
 
 Here you can see multiple of dash filename that already learnt in level 1. According to the challenge, the password's stored in the only `HUMAN-READABLE` file (ascii text format).  
 
@@ -127,7 +127,7 @@ Here you can see multiple of dash filename that already learnt in level 1. Accor
 find . -exec file {} + | grep ASCII
 ```
 
-![flag bandit4](https://user-images.githubusercontent.com/98354414/232558370-8c74e2f7-e0a1-4ba2-bc76-d7ad2909067c.png)
+![flag bandit4](/posts/bandit-writeup/6.png)
 
 Flag: *lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR*
 
@@ -236,7 +236,7 @@ The password for the next level is stored in the file data.txt in one of the few
 
 Just `strings` file **data.txt** to meet with the human-readable characteristic and `grep` several '=' character to find the password
 
-![bandit9 password](https://user-images.githubusercontent.com/98354414/232564747-34187d79-afd9-42e0-aa81-f9da0a309746.png)
+![bandit9 password](/posts/bandit-writeup/7.png)
 
 Flag: *G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s*
 
@@ -304,25 +304,74 @@ The password for the next level is stored in the file data.txt, which is a hexdu
 
 First, I'll open `data.txt` file in home dir and check it!
 
-![bandit12 image-1](https://user-images.githubusercontent.com/98354414/222911090-f9d2e421-4cb4-4207-a25f-702e17645e2f.png)
+```shell
+bandit12@bandit:~$ cat data.txt
+00000000: 1f8b 0808 8c3f f563 0203 6461 7461 322e  .....?.c..data2.
+00000010: 6269 6e00 0134 02cb fd42 5a68 3931 4159  bin..4...BZh91AY
+00000020: 2653 5953 6696 8100 001b 7fff fbdb effb  &SYSf...........
+00000030: b41f 6efa a7cb ebee fff3 b7ad 897d f77f  ..n..........}..
+00000040: 67bf beff bb6b aaff ff3b ff7b b001 3b5b  g....k...;.{..;[
+00000050: 4100 00d0 3101 881a 0d34 01a0 000d 0006  A...1....4......
+00000060: 10c4 d006 41b5 1a0d 0064 0340 64c8 3468  ....A....d.@d.4h
+00000070: 1934 1a0d 1a68 da26 26d3 50e4 d0d3 40d0  .4...h.&&.P...@.
+00000080: d001 a341 b500 0032 320d 0323 47a9 a683  ...A...22..#G...
+00000090: 4346 9a00 3d40 36a0 0308 184d 0640 0068  CF..=@6....M.@.h
+000000a0: 0c43 466a 0d34 6832 9a68 6430 40d3 4d34  .CFj.4h2.hd0@.M4
+000000b0: d0d0 7a80 d0c2 69a3 268d 1a06 81a0 00d0  ..z...i.&.......
+000000c0: c83f 5232 3400 c406 8da8 0680 3400 6800  .?R24.......4.h.
+000000d0: 001a 0020 2823 e282 2299 1ae9 cfa4 8ea0  ... (#..".......
+000000e0: 716d 6e03 9844 dd8b 7260 8c1e e05c d068  qmn..D..r`...\.h
+000000f0: 9a86 f4d8 b355 8786 1723 3041 695d f96a  .....U...#0Ai].j
+00000100: f8c0 503b 8df1 eac8 138b 82ed 21cb 9611  ..P;........!...
+00000110: 6d6a e5c3 c7ca 637c 26d9 ed7e 107a 14a2  mj....c|&..~.z..
+00000120: 6c54 8868 511f 481a 6412 bb95 a771 0401  lT.hQ.H.d....q..
+00000130: 3ca4 96cf 7e08 0e31 d967 e4c4 4fee 206b  <...~..1.g..O. k
+00000140: 8793 ec23 4da7 44ba 3ded 12e2 b947 9288  ...#M.D.=....G..
+00000150: 7809 0ca2 6b04 5f0d e0b2 6717 7e87 0628  x...k._...g.~..(
+00000160: 11a3 d282 9d61 f0a4 340c af19 d501 4ddd  .....a..4.....M.
+00000170: 1a8c c27b 154c 531f 345c b6a2 7298 a20c  ...{.LS.4\..r...
+00000180: e02d bb16 9127 5b42 30d6 634c b7cd 54ae  .-...'[B0.cL..T.
+00000190: bb26 9494 2a19 33bc b233 0d8c a75a ccf8  .&..*.3..3...Z..
+000001a0: 401c d5f4 bd06 7c43 cd73 32d3 84d0 c440  @.....|C.s2....@
+000001b0: 004e b2e9 de84 8251 e080 1a1e f506 e546  .N.....Q.......F
+000001c0: cf30 31af 361e b04c 8f5a f636 f1e7 4c24  .01.6..L.Z.6..L$
+000001d0: e14b 456b 109e 1421 99e5 ead9 3840 038f  .KEk...!....8@..
+000001e0: c1d8 c71a 9b5d 5435 afa0 5eca 34ca a83c  .....]T5..^.4..<
+000001f0: 309e 6b5d 532f a0af 20e0 bc3f bb03 a680  0.k]S/.. ..?....
+00000200: 6616 4b13 9d09 bf8b 3a93 6f16 b48a e6cf  f.K.....:.o.....
+00000210: ccb9 084c 8a35 12a7 447d 8224 4491 e534  ...L.5..D}.$D..4
+00000220: 0c71 2f36 fda1 8b54 0808 a144 9894 966f  .q/6...T...D...o
+00000230: be74 2140 952c 0294 a1d6 841e 1658 756f  .t!@.,.......Xuo
+00000240: 0d7f c5dc 914e 1424 14d9 a5a0 4043 a8c0  .....N.$....@C..
+00000250: f434 0200 00                             .4...
+```
 
 Here as you can see, it's a hexdump which is made by `xxd` command and reversed also by it
 
-![bandit12 image-2](https://user-images.githubusercontent.com/98354414/222911779-1df49f30-7f30-4f96-9996-d530e8d0a1d8.png)
+![man xxd](/posts/bandit-writeup/8.png)
 
 Referring to challenge's description, Let's create a directory in tmp file and make edits on `data.txt` file
 
-![bandit12 image-3](https://user-images.githubusercontent.com/98354414/222913543-474e9d84-1c2c-4ea3-9d4b-aebe992ce33e.png)
+```shell
+bandit12@bandit:~$ mktemp -d
+/tmp/tmp.UXHp76B0fO
+bandit12@bandit:~$ cp data.txt /tmp/tmp.UXHp76B0fO
+bandit12@bandit:~$ cd /tmp/tmp.UXHp76B0fO
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ ls
+data.txt
+```
 
 Now, we have to reverse hexdump using `xxd`
 
-    bandit12@bandit:/tmp/quocdat$ xxd -r  data.txt > password
-	
+```shell
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ xxd -r  data.txt > password
+```
+
 `-r` option for running the reverse hexdump, and `>` redirect to **password** file. 
 Then, we should check what type of **password** file:
 
 ```
-bandit12@bandit:/tmp/quocdat$ file password
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file password
 password: gzip compressed data, was "data2.bin", last modified: Tue Feb 21 22:02:52 2023, max compression, from Unix, original size modulo 2^32 564
 
 ```
@@ -336,55 +385,55 @@ From here on, the flow as below steps:
 And, the summarized result is here: 
 
 ```
-bandit12@bandit:/tmp/quocdat$ xxd -r data.txt > password
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ xxd -r data.txt > password
 
-bandit12@bandit:/tmp/quocdat$ file password 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file password 
 password: gzip compressed data, was "data2.bin", last modified: Tue Feb 21 22:02:52 2023, max compression, from Unix, original size modulo 2^32 564
-bandit12@bandit:/tmp/quocdat$ mv password password.gz
-bandit12@bandit:/tmp/quocdat$ gunzip password.gz 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv password password.gz
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ gunzip password.gz 
 
-bandit12@bandit:/tmp/quocdat$ file password 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file password 
 password: bzip2 compressed data, block size = 900k
-bandit12@bandit:/tmp/quocdat$ mv password password.bz2
-bandit12@bandit:/tmp/quocdat$ bzip2 -d password.bz2 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv password password.bz2
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ bzip2 -d password.bz2 
 
-bandit12@bandit:/tmp/quocdat$ file password 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file password 
 password: gzip compressed data, was "data4.bin", last modified: Tue Feb 21 22:02:52 2023, max compression, from Unix, original size modulo 2^32 20480
-bandit12@bandit:/tmp/quocdat$ mv password password.gz
-bandit12@bandit:/tmp/quocdat$ gunzip password.gz 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv password password.gz
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ gunzip password.gz 
 
-bandit12@bandit:/tmp/quocdat$ file password 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file password 
 password: POSIX tar archive (GNU)
-bandit12@bandit:/tmp/quocdat$ mv password password.tar
-bandit12@bandit:/tmp/quocdat$ tar -xvf password.tar
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv password password.tar
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ tar -xvf password.tar
 data5.bin
 
-bandit12@bandit:/tmp/quocdat$ file data5.bin 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file data5.bin 
 data5.bin: POSIX tar archive (GNU)
-bandit12@bandit:/tmp/quocdat$ mv data5.bin data5.tar
-bandit12@bandit:/tmp/quocdat$ tar -xvf data5.tar 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv data5.bin data5.tar
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ tar -xvf data5.tar 
 data6.bin
 
-bandit12@bandit:/tmp/quocdat$ file data6.bin 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file data6.bin 
 data6.bin: bzip2 compressed data, block size = 900k
-bandit12@bandit:/tmp/quocdat$ mv data6.bin data6.bz2
-bandit12@bandit:/tmp/quocdat$ bzip2 -d data6.bz2 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv data6.bin data6.bz2
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ bzip2 -d data6.bz2 
 
-bandit12@bandit:/tmp/quocdat$ file data6 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file data6 
 data6: POSIX tar archive (GNU)
-bandit12@bandit:/tmp/quocdat$ mv data6 data6.tar
-bandit12@bandit:/tmp/quocdat$ tar -xvf data6.tar 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv data6 data6.tar
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ tar -xvf data6.tar 
 data8.bin
 
-bandit12@bandit:/tmp/quocdat$ file data8.bin 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file data8.bin 
 data8.bin: gzip compressed data, was "data9.bin", last modified: Tue Feb 21 22:02:52 2023, max compression, from Unix, original size modulo 2^32 49
-bandit12@bandit:/tmp/quocdat$ mv data8.bin data8.gz
-bandit12@bandit:/tmp/quocdat$ gunzip data8.gz 
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ mv data8.bin data8.gz
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ gunzip data8.gz 
 
-bandit12@bandit:/tmp/quocdat$ file data8
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ file data8
 data8: ASCII text
 
-bandit12@bandit:/tmp/quocdat$ cat data8
+bandit12@bandit:/tmp/tmp.UXHp76B0fO$ cat data8
 The password is wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
 ```
 Flag: *wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw*
@@ -399,7 +448,7 @@ The password for the next level is stored in /etc/bandit_pass/bandit14 and can o
 
 This challenge require us to know about **SSH** and **SSH Key**. If you haven't known about it yet, you can read it [here](https://help.ubuntu.com/community/SSH/OpenSSH/Keys "here")
 
-![bandit13 image-1](https://user-images.githubusercontent.com/98354414/222917184-ef7c9f61-a162-44c7-9cc8-e5de5667c93e.png)
+![bandit13 home](/posts/bandit-writeup/9.png)
 
 Try login the **bandit14**'s box using SSH Key in home directory's bandit13 with the provided information. 
 
@@ -467,7 +516,7 @@ Helpful Reading Material
 
 Read the hint, as we can see, the level goal mentions `ssl`, there's a tool called `openssl`. Let's look there:
 
-![bandit15 image-1](https://user-images.githubusercontent.com/98354414/222936554-1d0d01a0-2ab9-4dea-b08d-0452d5f8bdaf.png)
+![bandit15 image-1](/posts/bandit-writeup/10.png)
 
 ```
 s_client
@@ -540,22 +589,22 @@ NOTE: if you have solved this level and see ‘Byebye!’ when trying to log int
 ### Solution
 We use the private SSH key file to login in **bandit17**'s box
 
-![bandit17 image-1](https://user-images.githubusercontent.com/98354414/222940091-ce626970-a16b-4a36-9eff-b2eb0a7b5f5d.png)
+![bandit17 login](/posts/bandit-writeup/11.png)
 
 "*It is required that your private key files are NOT accessible by others.*"  So I'll modify the permission of it for only user to read it.
 ```
-chmod 400 bandit17.rsa
+chmod 400 bandit17.private
 ```
 
 Then try reconnect and it's successful.
 
-![bandit17 image-2](https://user-images.githubusercontent.com/98354414/222940411-1cbae188-81ab-46e4-8ecb-7d02c189414b.png)
+![bandit17 login successfully](/posts/bandit-writeup/12.png)
 
 There are 2 files as mentioned in the description and we have to findout the only line that has been changed between them.
 
 With the given hints, we just need to know about `diff` command usage.
 
-![diff command](https://user-images.githubusercontent.com/98354414/222940518-e4ae8840-9564-4e92-8d72-b892306d54a7.png)
+![diff command](/posts/bandit-writeup/13.png)
 
 Let's proceed to `diff` two password files!
 
